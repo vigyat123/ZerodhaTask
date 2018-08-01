@@ -1,0 +1,47 @@
+---
+- name: Sample Task from Zerodha
+  hosts: Server
+ #connection: local
+  become: yes
+
+  vars:
+    # created with:
+    # python -c 'import crypt; print crypt.crypt("This is my Password", "$1$SomeSalt$")'
+    password: $1$SomeSalt$UqddPX3r4kH3UL5jq5/ZI.
+
+  tasks:
+    - name: create user with name "testuser"
+      user: name=testuser password={{password}}
+
+
+    - name: Update Timezone to Asia/Kolkata
+      copy: content="Asia/Kolkata\n" dest=/etc/timezone owner=root group=root mode=0644
+      sudo: true
+      register: timezone
+
+    - name: Reconfigure Timezone Data
+      shell: dpkg-reconfigure -f noninteractive tzdata
+      sudo: true
+      when: timezone.changed
+
+
+    - name: Load file to /home/testuser
+      copy:
+        src: /etc/InstallConsul
+        dest: /home/testuser/InstallConsul
+
+    - name: ensure python is installed
+      apt: name=python state=present
+
+    - name: ensure supervisor is installed
+      apt: name=supervisor state=present
+
+    - name: ensure supervisor is started
+      service: name=supervisor state=started
+    
+    - name: ensure consul is installed
+      command: bash /ZerodhaTask/Scripts/InstallConsul
+      command: bash /ZerodhaTask/Scripts/NonBootstrapConsulServer
+      command: bash /ZerodhaTask/Scripts/ConsulAgentServer
+      command: bash /ZerodhaTask/Scripts/TestingAgentServer
+    
