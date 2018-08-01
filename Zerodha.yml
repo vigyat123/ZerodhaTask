@@ -25,9 +25,9 @@
       when: timezone.changed
 
 
-    - name: Load file to /home/testuser
+    - name: Upload a file from local to /home/testuser
       copy:
-        src: /etc/InstallConsul
+        src: /ZerodhaTask/Scripts/InstallConsul
         dest: /home/testuser/InstallConsul
 
     - name: ensure python is installed
