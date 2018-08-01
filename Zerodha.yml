@@ -40,8 +40,8 @@
       service: name=supervisor state=started
     
     - name: ensure consul is installed
-      command: bash /ZerodhaTask/Scripts/InstallConsul
-      command: bash /ZerodhaTask/Scripts/NonBootstrapConsulServer
-      command: bash /ZerodhaTask/Scripts/ConsulAgentServer
-      command: bash /ZerodhaTask/Scripts/TestingAgentServer
+      command: bash /ZerodhaTask/Scripts/InstallConsul.sh
+      command: bash /ZerodhaTask/Scripts/NonBootstrapConsulServer.sh
+      command: bash /ZerodhaTask/Scripts/ConsulAgentServer.sh
+      command: bash /ZerodhaTask/Scripts/TestingAgentServer.sh
     
